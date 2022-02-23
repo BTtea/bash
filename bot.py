@@ -1,16 +1,25 @@
 import discord
+import json
 from discord.ext import commands
 
 
+with open ('settings.json','r',encoding='utf8') as jfile:
+    jdata=json.load(jfile)
+
 client=discord.Client()
+
+
 
 bot=commands.Bot(command_prefix=";")
 
-channel_ID=1234567890
+channel_ID=731101828216782908
 
 @bot.command()
 async def cls(ctx,*,msg):
-    await ctx.channel.purge(limit=int(msg)+1)
+    if ctx.author.id == 614095160829149373:
+        await ctx.channel.purge(limit=int(msg)+1)
+    else:
+        await ctx.send('not is root.')
 
 
 @bot.event
@@ -40,4 +49,4 @@ async def on_member_remove(member):
     await channel.send(f'{member} remove!')
 
 
-bot.run('token')
+bot.run(jdata['token'])
