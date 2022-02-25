@@ -1,0 +1,10 @@
+.flex{
+    display:flex;
+    width:600px;
+    height:600px;
+    background-color:#eee;
+}
+
+.flex div{
+    margin:auto;
+}
