@@ -1,31 +1,23 @@
 <?php
+require_once("db.php");
 if ((!isset($_POST['name'])) || !isset($_POST['pwd'])) {
     return;
 }
-$dbms = 'mysql';
-$dbhost = 'localhost';
-$dbname = 'account';
-$dbuser = 'root';
-$dbpwd = 'password';
-$dsn = "$dbms:host=$dbhost;dbname=$dbname";
-//echo "<p>$dsn";
-$db = new PDO($dsn, $dbuser, $dbpwd);
-header('Content-Type: text/plain');
-$username = $_POST['name'];
+$userName = $_POST['name'];
 $statement = $db->prepare('SELECT id FROM users WHERE name = :username');
 $statement->execute(array(
-    ':username' => $username
+    ':username' => $userName
 ));
 $row = $statement->fetch(PDO::FETCH_ASSOC);
 if (is_array($row)) {
-    echo "您的帳號 $username 已被註冊, 請更換其他帳號";
+    echo "您的帳號 $userName 已被註冊, 請更換其他帳號";
 } else {
     $statement = $db->prepare('INSERT INTO users(name, pwd) VALUES(:username, :pwd)');
     $statement->execute(array(
-        ':username' => $username,
+        ':username' => $userName,
         ':pwd' => $_POST['pwd']
     ));
-    echo "歡迎$username, 註冊成功\n";
+    echo "歡迎$userName, 註冊成功\n";
     echo $row['userid'];
 }
 echo "\n";
